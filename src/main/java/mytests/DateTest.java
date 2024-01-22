@@ -1,7 +1,10 @@
 package mytests;
 
+import com.hotmart.util.date.DateUtils;
+
 import java.time.Instant;
 import java.time.ZoneOffset;
+import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
@@ -11,10 +14,17 @@ public class DateTest {
     
     public static void main(String[] args) {
         DateTest dateTest = new DateTest();
+        dateTest.addDaysWithHotUtils();
         dateTest.getSpecificDate();
         dateTest.addDaysAndResetTime();
         dateTest.subtractTimeZoneOffset();
         dateTest.addTimeZoneOffset();
+    }
+    
+    public void addDaysWithHotUtils() {
+        System.out.println("\u001B[34m \nAdd days with hot-utils lib \u001B[0m");
+        Date date = DateUtils.minusDate(new Date(),15L, ChronoUnit.DAYS);
+        System.out.println(date);
     }
     
     public void getSpecificDate() {
