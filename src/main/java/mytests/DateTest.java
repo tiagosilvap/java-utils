@@ -3,6 +3,8 @@ package mytests;
 import com.hotmart.util.date.DateUtils;
 
 import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.temporal.ChronoUnit;
 import java.util.Calendar;
@@ -14,11 +16,15 @@ public class DateTest {
     
     public static void main(String[] args) {
         DateTest dateTest = new DateTest();
-        dateTest.addDaysWithHotUtils();
+//        dateTest.addDaysWithHotUtils();
         dateTest.getSpecificDate();
         dateTest.addDaysAndResetTime();
         dateTest.subtractTimeZoneOffset();
         dateTest.addTimeZoneOffset();
+        dateTest.convertStringToLocalDateTime();
+        dateTest.convertLocalDateTimeToDate();
+        
+        dateTest.updateSystemTimeZone();
     }
     
     public void addDaysWithHotUtils() {
@@ -71,6 +77,30 @@ public class DateTest {
         now += (offset);
         Instant instant = Instant.ofEpochMilli(now).atZone(ZoneOffset.UTC).toInstant();
         System.out.println(Date.from(instant));
+    }
+    
+    public void convertStringToLocalDateTime() {
+        System.out.println("\u001B[34m \nConvert String to LocalDateTime \u001B[0m");
+        
+        String utcTime = "2021-12-01T18:23:34.000Z";
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.parse(utcTime), ZoneOffset.UTC);
+        System.out.println(localDateTime);
+    }
+    
+    public void convertLocalDateTimeToDate() {
+        System.out.println("\u001B[34m \nConvert LocalDateTime to Date \u001B[0m");
+        String utcTime = "2021-12-01T18:23:34.000Z";
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(Instant.parse(utcTime), ZoneOffset.UTC);
+        Date date = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+        System.out.println(date);
+    }
+    
+    public void updateSystemTimeZone() {
+        System.out.println("\u001B[34m \nUpdate System Time Zone \u001B[0m");
+        TimeZone.setDefault(TimeZone.getTimeZone(TimeZoneEnum.AMERICA_NEW_YORK.getId()));
+        System.out.println(LocalDateTime.now());
+        TimeZone.setDefault(TimeZone.getTimeZone(TimeZoneEnum.AMERICA_SAO_PAULO.getId()));
+        System.out.println(LocalDateTime.now());
     }
     
     public enum TimeZoneEnum {
